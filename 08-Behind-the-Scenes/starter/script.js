@@ -46,7 +46,6 @@
 // /*Practical example for (&&)
 //     Example:1
 //    ->if (restaurant.orderPizza){
-//       restaurant.orderPizza('mushrooms', 'spinach');
 //     }
 
 //    Example:2
