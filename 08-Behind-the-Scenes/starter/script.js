@@ -64,7 +64,7 @@ const rest2 = {
 };
 
 rest1.ownerName = rest1.ownerName && 'Vishnu';
-//(or)
+//(or
 // rest1.ownerName &&= 'Vishn';
 
 rest2.ownerName = rest2.ownerName && 'Vis';
