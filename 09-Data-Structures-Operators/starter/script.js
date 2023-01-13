@@ -200,25 +200,241 @@
 // }
 // console.log(scorers);
 
-/*Let's deal with sets*/
-const exampleSet = new Set(['pizza', 'pizza', 'pasta', 'idly', 'dosa', 'idly']);
-console.log(exampleSet);
-console.log(exampleSet.size);
-exampleSet.add('chicken');
-exampleSet.add('idly');
-console.log(exampleSet);
-exampleSet.delete('idly');
-console.log(exampleSet);
-for (const food of exampleSet) console.log(food);
-exampleSet.clear();
-console.log(exampleSet);
+// /*Let's deal with sets*/
+// const exampleSet = new Set(['pizza', 'pizza', 'pasta', 'idly', 'dosa', 'idly']);
+// console.log(exampleSet);
+// console.log(exampleSet.size);
+// exampleSet.add('chicken');
+// exampleSet.add('idly');
+// console.log(exampleSet);
+// exampleSet.delete('idly');
+// console.log(exampleSet);
+// for (const food of exampleSet) console.log(food);
+// exampleSet.clear();
+// console.log(exampleSet);
 
-/*An example on sets*/
-const staff = ['chef', 'manager', 'waiter', 'waiter', 'chef'];
-const uniqueStaffInSet = new Set(staff);
-const uniqueStaffInArray = [...new Set(staff)];
-console.log(uniqueStaffInSet);
-console.log(uniqueStaffInArray);
+// /*An example on sets*/
+// const staff = ['chef', 'manager', 'waiter', 'waiter', 'chef'];
+// const uniqueStaffInSet = new Set(staff);
+// const uniqueStaffInArray = [...new Set(staff)];
+// console.log(uniqueStaffInSet);
+// console.log(uniqueStaffInArray);
 
-/*A string can also be a set*/
-console.log(new Set('vishnu'));
+// /*A string can also be a set*/
+// console.log(new Set('vishnu'));
+//
+
+//To add the key:value pair to maps when creating it without using the set method
+// const quizTime = new Map([
+//   ['question', 'What is the best programming language'],
+//   [1, 'C'],
+//   [2, 'Java'],
+//   [3, 'JavaScript'],
+//   ['correct', 3],
+//   [true, 'Your answer is correct'],
+//   [false, 'Your answer is false'],
+// ]);
+// console.log(quizTime);
+
+// console.log(quizTime.get('question'));
+// for (const [key, value] of quizTime) {
+//   if (typeof key === 'number') {
+//     console.log(`Option ${key} : ${value}`);
+//   }
+// }
+
+// //This will prompt a box in the browser for user input
+// const userAnswer = Number(prompt('Plese give your option'));
+
+// console.log(quizTime.get(userAnswer === quizTime.get('correct')));
+
+// /*--------------XXXXXXXX------------------*/
+// //To convert Object to Maps
+// const openingHoursObject = {
+//   mon: {
+//     open: 9,
+//     close: 10,
+//   },
+//   tue: {
+//     open: 10,
+//   },
+//   wed: {
+//     close: 11,
+//   },
+// };
+// console.log(Object.entries(openingHoursObject));
+// const openingHoursSet = new Map(Object.entries(openingHoursObject));
+// console.log(openingHoursSet);
+// const gameEvents = new Map([
+//   [17, '⚽️ GOAL'],
+//   [36, '🔁 Substitution'],
+//   [47, '⚽️ GOAL'],
+//   [61, '🔁 Substitution'],
+//   [64, '🔶 Yellow card'],
+//   [69, '🔴 Red card'],
+//   [70, '🔁 Substitution'],
+//   [72, '🔁 Substitution'],
+//   [76, '⚽️ GOAL'],
+//   [80, '⚽️ GOAL'],
+//   [92, '🔶 Yellow card'],
+// ]);
+// const events = [...new Set(gameEvents.values())];
+// console.log(events);
+// gameEvents.delete(64);
+// console.log(gameEvents);
+
+// for (let [key, value] of gameEvents) {
+//   console.log(`${key > 45 ? '[LAST HALF]' : '[FIRST HALF]'} ${key}: ${value}`);
+// }
+///////////////////////////////////////
+// Working With Strings - Part 1
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
+
+// console.log(plane[0]);
+// console.log('B737'[0]);
+
+// console.log(airline.length);
+// console.log('B737'.length);
+
+// console.log(airline.indexOf('r'));
+// console.log(airline.lastIndexOf('r'));
+// console.log(airline.indexOf('portugal'));
+
+// console.log(airline.slice(4));
+// console.log(airline.slice(4, 7));
+
+// console.log(airline.slice(0, airline.indexOf(' ')));
+// console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+
+// console.log(airline.slice(-2));
+// console.log(airline.slice(1, -1));
+
+// const checkMiddleSeat = function (seat) {
+//   // B and E are middle seats
+//   const s = seat.slice(-1);
+//   if (s === 'B' || s === 'E') console.log('You got the middle seat 😬');
+//   else console.log('You got lucky 😎');
+// };
+// checkMiddleSeat('11B');
+// checkMiddleSeat('23C');
+// checkMiddleSeat('3E');
+
+// //Behind the scenes, when you call on method on strings, JavaScript converts that sting name to object with the process called boxing. It happens like shown in the below line.
+// console.log(new String('jonas'));
+// console.log(typeof new String('jonas'));
+
+// //Eventhough the string calls the method after it converts itself to object, it only returns the primitives and not object types as shown in below line
+// console.log(typeof new String('jonas').slice(1));
+///////////////////////////////////////
+// Working With Strings - Part 2
+
+// const airline = 'TAP Air Portugal';
+
+// console.log(airline.toLowerCase());
+// console.log(airline.toUpperCase());
+
+// // Fix capitalization in name
+// const passenger = 'jOnAS'; // Jonas
+// const passengerLower = passenger.toLowerCase();
+// const passengerCorrect =
+//   passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// console.log(passengerCorrect);
+
+// // Comparing emails
+// const email = 'hello@jonas.io';
+// const loginEmail = '  Hello@Jonas.Io \n';
+
+// // const lowerEmail = loginEmail.toLowerCase();
+// // const trimmedEmail = lowerEmail.trim();
+// const normalizedEmail = loginEmail.toLowerCase().trim();
+// console.log(normalizedEmail);
+// console.log(email === normalizedEmail);
+
+// // replacing
+// const priceGB = '288,97£';
+// const priceUS = priceGB.replace('£', '$').replace(',', '.');
+// console.log(priceUS);
+
+// const announcement =
+//   'All passengers come to boarding door 23. Boarding door 23!';
+
+// console.log(announcement.replace('door', 'gate'));
+// console.log(announcement.replaceAll('door', 'gate'));
+// //console.log(announcement.replace(/door/g, 'gate'));
+
+// // Booleans
+// const plane = 'Airbus A320neo';
+// console.log(plane.includes('A320'));
+// console.log(plane.includes('Boeing'));
+// console.log(plane.startsWith('Airb'));
+
+// if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+//   console.log('Part of the NEW ARirbus family');
+// }
+
+// // Practice exercise
+// const checkBaggage = function (items) {
+//   const baggage = items.toLowerCase();
+
+//   if (baggage.includes('knife') || baggage.includes('gun')) {
+//     console.log('You are NOT allowed on board');
+//   } else {
+//     console.log('Welcome aboard!');
+//   }
+// };
+
+// checkBaggage('I have a laptop, some Food and a pocket Knife');
+// checkBaggage('Socks and camera');
+// checkBaggage('Got some snacks and a gun for protection');
+///////////////////////////////////////
+// Working With Strings - Part 2
+
+// Split and join
+console.log('a+very+nice+string'.split('+'));
+console.log('Jonas Schmedtmann'.split(' '));
+
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+
+capitalizeName('jessica ann smith davis');
+capitalizeName('jonas schmedtmann');
+
+// Padding
+const message = 'Go to gate 23!';
+console.log(message.padStart(20, '+').padEnd(30, '+'));
+console.log('Jonas'.padStart(20, '+').padEnd(30, '+'));
+
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(64637836));
+console.log(maskCreditCard(43378463864647384));
+console.log(maskCreditCard('334859493847755774747'));
+
+// Repeat
+const message2 = 'Bad waether... All Departues Delayed... ';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'🛩'.repeat(n)}`);
+};
+planesInLine(5);
+planesInLine(3);
+planesInLine(12);
