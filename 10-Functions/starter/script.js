@@ -191,32 +191,101 @@ BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
 
 GOOD LUCK 😀
 */
-const poll = {
-  question: 'What is your favourite programming language?',
-  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
-  // This generates [0, 0, 0, 0]. More in the next section 😃
-  answers: new Array(4).fill(0),
-  registerNewAnswer() {
-    let inputOption = window.prompt(
-      'What is your favourite programming language?\n0: JavaScript\n1: Python\n2: Rust\n3: C++\n(Write option number)'
-    );
-    if (Number(inputOption) > 3) {
-      window.alert('wrong input type');
-    } else {
-      this.answers[Number(inputOption)]++;
-      this.displayResults('array');
-      this.displayResults('string');
-    }
-  },
-  displayResults(type = 'array') {
-    if (type == 'array') console.log(this.answers);
-    if (type == 'string')
-      console.log(
-        `The poll results are ${this.answers[0]}, ${this.answers[1]}, ${this.answers[2]}, ${this.answers[3]} `
-      );
-  },
+// const poll = {
+//   question: 'What is your favourite programming language?',
+//   options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+//   // This generates [0, 0, 0, 0]. More in the next section 😃
+//   answers: new Array(4).fill(0),
+//   registerNewAnswer() {
+//     let inputOption = window.prompt(
+//       'What is your favourite programming language?\n0: JavaScript\n1: Python\n2: Rust\n3: C++\n(Write option number)'
+//     );
+//     if (Number(inputOption) > 3) {
+//       window.alert('wrong input type');
+//     } else {
+//       this.answers[Number(inputOption)]++;
+//       this.displayResults('array');
+//       this.displayResults('string');
+//     }
+//   },
+//   displayResults(type = 'array') {
+//     if (type == 'array') console.log(this.answers);
+//     if (type == 'string')
+//       console.log(
+//         `The poll results are ${this.answers[0]}, ${this.answers[1]}, ${this.answers[2]}, ${this.answers[3]} `
+//       );
+//   },
+// };
+// document
+//   .querySelector('.poll')
+//   .addEventListener('click', poll.registerNewAnswer.bind(poll));
+// poll.registerNewAnswer();
+
+//Immediatly invoked function expression
+// (function () {
+//   console.log(`This functions executes only one time`);
+// })();
+
+// //In arrow functions formate
+// (() => console.log(`This arrow function also executes only one time`))();
+
+//Closures
+
+// const secureBooking = function () {
+//   let passengerCount = 0;
+
+//   return function () {
+//     passengerCount++;
+//     console.log(`${passengerCount} passengers`);
+//   };
+// };
+
+// const booker = secureBooking();
+
+// booker();
+// booker();
+// booker();
+
+// console.dir(booker);
+
+// More Closure Examples
+// Example 1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
 };
-document
-  .querySelector('.poll')
-  .addEventListener('click', poll.registerNewAnswer.bind(poll));
-poll.registerNewAnswer();
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+// console.dir(f);
+
+// Re-assigning f function
+h();
+f();
+// console.dir(f);
+
+// Example 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+const perGroup = 1000;
+boardPassengers(180, 3);
