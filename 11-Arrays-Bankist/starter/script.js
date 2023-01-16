@@ -267,7 +267,6 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
 
 //create user name with first letter from each word in name
 //read owner name from all accounts
@@ -283,27 +282,65 @@ const createUsernames = function (acc) {
 };
 createUsernames(accounts);
 
-const calcDisplayBalance = function (accTrans) {
-  const accBal = accTrans.reduce((acc, val) => acc + val, 0);
-  labelBalance.textContent = `${accBal}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, val) => acc + val, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
-calcDisplayBalance(account1.movements);
 
 const calcDisplaySummery = function (accTrans) {
-  const incomes = accTrans
+  const incomes = accTrans.movements
     .filter(val => val > 0)
     .reduce((acc, val) => acc + val);
-  const expenses = accTrans
+  const expenses = accTrans.movements
     .filter(val => val < 0)
     .reduce((acc, val) => acc + val);
-  //const intrest = (incomes * 1.2) / 100;
-  const intrest = accTrans
+  const intrest = accTrans.movements
     .filter(val => val > 0)
-    .map(val => (val * 1.2) / 100)
+    .map(val => (val * accTrans.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((acc, int) => acc + int);
   labelSumIn.textContent = `${incomes}€`;
   labelSumOut.textContent = `${Math.abs(expenses)}€`;
   labelSumInterest.textContent = `${intrest}€`;
 };
-calcDisplaySummery(account1.movements);
+const updateUI = function (acc) {
+  calcDisplaySummery(acc);
+  calcDisplayBalance(acc);
+  displayMovements(acc.movements);
+};
+let currentAccount;
+//Login functionality implementation
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    val => val.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    containerApp.style.opacity = 100;
+    labelWelcome.textContent = `Welcome ${currentAccount.owner.split(' ')[0]}`;
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+    updateUI(currentAccount);
+  }
+});
+
+//Transfer money
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find(
+    value => value.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  if (
+    amount > 0 &&
+    receiverAccount &&
+    currentAccount.balance >= amount &&
+    currentAccount.username !== receiverAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+});
