@@ -92,7 +92,6 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //   const dogsJuliaCorrected = [...dogsJuliaD];
 //   dogsJuliaCorrected.splice(0, 1);
 //   dogsJuliaCorrected.splice(-2, 2);
-//   //console.log(dogsJuliaCorrected);
 //   const mergedData = [...dogsJuliaCorrected, ...dogsKateD];
 //   console.log(mergedData);
 //   mergedData.forEach(function (value, i) {
@@ -101,8 +100,20 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //     );
 //   });
 // };
-// checkDogs(dogsJulia1, dogsKate1);
-// checkDogs(dogsJulia2, dogsKate2);
+// // checkDogs(dogsJulia1, dogsKate1);
+// // checkDogs(dogsJulia2, dogsKate2);
+// const arrForAvg = [5, 2, 4, 1, 15, 3];
+// const calcAverageHumanAge = function (ages) {
+//   const resultAvg = ages
+//     .map(value => (value <= 2 ? 2 * value : 16 + value * 4))
+//     .filter(val => val >= 18)
+//     .reduce((acc, val, i, ar) => {
+//       if (i == ar.length - 1) return (acc + val) / ar.length;
+//       return acc + val;
+//     });
+//   console.log(resultAvg);
+// };
+// calcAverageHumanAge(arrForAvg);
 
 /*Maps- example*/
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -129,6 +140,42 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //     } ${Math.abs(value)}`
 // );
 // console.log(movementsDescription);
+
+/*Filter and reduce array*/
+//To create deposits and withdrawals array with filter methods from movements array
+// const movementsD = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// //with usual function
+// const deposits = movementsD.filter(function (value) {
+//   return value > 0;
+// });
+// console.log(deposits);
+// //with arrows function
+// const withdrawals = movementsD.filter(value => value < 0);
+// console.log(withdrawals);
+
+// //To get the total balance from movements array by adding and substracting it's elements: we use reduce method for this
+// //Unlike map and filter methods where first passing arguments is the value, here in reduce the first passing argument is accumulator which is the sum of all previous elements iterated. the default initialized value for accumulator is 0, or we can specify any other value also
+// const balance = movementsD.reduce(function (accumulator, value, index, array) {
+//   return accumulator + value;
+// }, 0);
+// console.log(balance);
+
+// //same with arrow function
+// const balanceArrow = movementsD.reduce((acc, val) => acc + val, 0);
+// console.log(balanceArrow);
+
+// //to find max value from the movements array
+// const maxValue = movementsD.reduce((acc, value) => (value > acc ? value : acc));
+// console.log(maxValue);
+
+//The find method:
+//The find method is similar to filter method. But, it returns the first element that satisfies the condition unlike filter method where it returns all the elements that satisfies that condition in an array
+// const firstWithdrawal = movements.find(val => val < 0);
+// console.log(firstWithdrawal);
+// //to find the account with owner name sarah smith
+// const sarahAccount = accounts.find(ac => ac.owner === 'Sarah Smith');
+// console.log(sarahAccount);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -164,6 +211,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -201,8 +249,6 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 //create a displayMovements function passing account-1 as an argument
 //dispalay that to movements element in html
 //hide the old transactions, that are already there
@@ -237,21 +283,27 @@ const createUsernames = function (acc) {
 };
 createUsernames(accounts);
 
-//To create deposits and withdrawals array with filter methods from movements array
-//const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const calcDisplayBalance = function (accTrans) {
+  const accBal = accTrans.reduce((acc, val) => acc + val, 0);
+  labelBalance.textContent = `${accBal}€`;
+};
+calcDisplayBalance(account1.movements);
 
-//with usual function
-const deposits = movements.filter(function (value) {
-  return value > 0;
-});
-console.log(deposits);
-//with arrows function
-const withdrawals = movements.filter(value => value < 0);
-console.log(withdrawals);
-
-//To get the total balance from movements array by adding and substracting it's elements: we use reduce method for this
-//Unlike map and filter methods where first passing arguments is the value, here in reduce the first passing argument is accumulator which is the sum of all previous elements iterated. the default initialized value for accumulator is 0, or we can specify any other value also
-const balance = movements.reduce(function (accumulator, value, index, array) {
-  return accumulator + value;
-}, 0);
-console.log(balance);
+const calcDisplaySummery = function (accTrans) {
+  const incomes = accTrans
+    .filter(val => val > 0)
+    .reduce((acc, val) => acc + val);
+  const expenses = accTrans
+    .filter(val => val < 0)
+    .reduce((acc, val) => acc + val);
+  //const intrest = (incomes * 1.2) / 100;
+  const intrest = accTrans
+    .filter(val => val > 0)
+    .map(val => (val * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int);
+  labelSumIn.textContent = `${incomes}€`;
+  labelSumOut.textContent = `${Math.abs(expenses)}€`;
+  labelSumInterest.textContent = `${intrest}€`;
+};
+calcDisplaySummery(account1.movements);
