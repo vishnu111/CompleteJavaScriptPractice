@@ -176,6 +176,40 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 // //to find the account with owner name sarah smith
 // const sarahAccount = accounts.find(ac => ac.owner === 'Sarah Smith');
 // console.log(sarahAccount);
+// EQUALITY
+// console.log(movements.includes(-130));
+// same as above
+// console.log(movements.some(mov => mov === -130));
+
+//If we want to find out, if any element satisfies particular condition in a generic way, then we should use some method: In this case, we wanted to find out if there are any deposits (+ve values)
+// const anyDeposits = movements.some(mov => mov > 0);
+// console.log(anyDeposits);
+
+// //flat and flatMap method: they are used to combine nested arrays into single array
+// const nestedArr = [
+//   [1, 2],
+//   [4, 5],
+//   [6, 7],
+//   [8, 9],
+// ];
+// console.log(nestedArr.flat()); //This default flat method only goes one level deeper, if we want to go into more deeper nested array we should should specify that by passing to flat function
+// const deepNestArray = [[1, [2, 3]], [4, 5], [6, [7, 8]], [9]];
+// console.log(deepNestArray.flat());
+// console.log(deepNestArray.flat(2));
+// //let's add the movements of all objects using flat
+// console.log(
+//   accounts
+//     .map(val => val.movements)
+//     .flat()
+//     .reduce((acc, val) => acc + val)
+// );
+// //Instead of using map and flat functions seperatly like above example, we have a function called flatMap(): Only one draw back is that it can go only one level deeper
+// console.log(
+//   accounts.flatMap(val => val.movements).reduce((acc, val) => acc + val)
+// );
+
+// //Every method: if all the elements in the array satifies the specified condition then it returns true, else returns false
+// // console.log(movements.every(val => typeof val === 'number'));
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -211,6 +245,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Elements
@@ -343,4 +378,34 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAccount.movements.push(amount);
     updateUI(currentAccount);
   }
+});
+
+//Delete account
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername = inputClosePin = '';
+});
+
+//request loan
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const loanAmount = Number(inputLoanAmount.value);
+  if (
+    loanAmount > 0 &&
+    currentAccount.movements.some(val => val >= loanAmount * 0.1)
+  ) {
+    currentAccount.movements.push(loanAmount);
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
 });
