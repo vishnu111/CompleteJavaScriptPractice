@@ -210,7 +210,42 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 
 // //Every method: if all the elements in the array satifies the specified condition then it returns true, else returns false
 // // console.log(movements.every(val => typeof val === 'number'));
+// const movementsAscNum = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movementsDscNum = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movementsAscNumSpc = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movementsDscNumSpc = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// ///////////////////////////////////////
+// // Sorting Arrays
+
+// // Strings: these sort methods are mutatable, they change at the original array
+// const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+// console.log(owners.sort());
+// console.log(owners);
+// // Numbers: This default sort method only works on strings, here if you see below we are applying sort for numbers and sort method is converting it to strings and then sorting
+// console.log(movements.sort());
+
+// // return < 0, A, B (keep order)
+// // return > 0, B, A (switch order)
+// // Ascending: usual way to sort the array
+// movementsAscNum.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (a < b) return -1;
+// });
+// console.log(movementsAscNum);
+
+// //Easiest way to sort the array as a-b returns what needed as above
+// movementsAscNumSpc.sort((a, b) => a - b);
+// console.log(movementsAscNumSpc);
+
+// // Descending
+// movementsDscNum.sort((a, b) => {
+//   if (a > b) return -1;
+//   if (a < b) return 1;
+// });
+// console.log(movementsDscNum);
+// movementsDscNumSpc.sort((a, b) => b - a);
+// console.log(movementsDscNumSpc);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -287,9 +322,10 @@ const currencies = new Map([
 //create a displayMovements function passing account-1 as an argument
 //dispalay that to movements element in html
 //hide the old transactions, that are already there
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (value, i) {
+  const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movSort.forEach(function (value, i) {
     let type = value > 0 ? 'deposit' : 'withdrawal';
     let html = `
     <div class="movements__row">
@@ -408,4 +444,12 @@ btnLoan.addEventListener('click', function (e) {
     updateUI(currentAccount);
   }
   inputLoanAmount.value = '';
+});
+
+//sort the transactions
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, true);
+  sorted = !sorted;
 });
