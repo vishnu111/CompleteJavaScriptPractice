@@ -446,7 +446,7 @@ btnLoan.addEventListener('click', function (e) {
   inputLoanAmount.value = '';
 });
 
-//sort the transactions
+//sort the transactions :
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
