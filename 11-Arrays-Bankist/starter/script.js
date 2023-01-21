@@ -250,6 +250,41 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 /////////////////////////////////////////////////
 // BANKIST APP
 
+///////////////////////////////////////
+// More Ways of Creating and Filling Arrays
+// const arr = [1, 2, 3, 4, 5, 6, 7];
+// console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+// // Empty arrays + fill method
+// //With the below statement, it won't create a array with value 7 in it. But, it creates an array with length of 7
+// const x = new Array(7);
+// console.log(x);
+// //In below statement: the first argument is value and second is starting index and last argument is end index to fill the value
+// x.fill(1, 3, 5);
+// console.log(x);
+// x.fill(1);
+// console.log(x);
+// //we can use the fill method to change the existing values also
+// arr.fill(23, 2, 6);
+// console.log(arr);
+
+// // Array.from: this method is used to fill the mutiple indexes in the array
+// const y = Array.from({ length: 7 }, () => 1);
+// console.log(y);
+// //we pass "_" as an argument when we don't want to use that inside the function
+// const z = Array.from({ length: 7 }, (_, i) => i + 1);
+// console.log(z);
+// labelBalance.addEventListener('click', function () {
+//   //Here we are using from method to convert the values we retrieved from html DOM, so that we can perform array methods in it.
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(movementsUI);
+
+//   //Here we are converting the DOM retrived data to array using spread operator
+//   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+// });
+
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
@@ -282,6 +317,42 @@ const account4 = {
 const accounts = [account1, account2, account3, account4];
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const bankDepositSum = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .filter(el => el > 0)
+//   .reduce((sum, cur) => sum + cur);
+// console.log(bankDepositSum);
+// const numDeposits1000 = accounts
+//   .flatMap(account => account.movements)
+//   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+// console.log(numDeposits1000);
+// const { deposit, withdrawal } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (count, cur) => {
+//       cur > 0 ? (count.deposit += cur) : (count.withdrawal -= cur);
+//       return count;
+//     },
+//     { deposit: 0, withdrawal: 0 }
+//   );
+// console.log(deposit, withdrawal);
+// //A function that accepts a string and convert that to the title case
+// const titleCase = function (title) {
+//   const titleWords = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
+//   const splitWord = title
+//     .toLowerCase()
+//     .split(' ')
+//     .reduce((sum, cur) => {
+//       titleWords.includes(cur)
+//         ? (sum += cur + ' ')
+//         : (sum += cur.replace(cur[0], cur[0].toUpperCase()) + ' ');
+//       return sum;
+//     }, '');
+//   console.log(splitWord);
+// };
+// console.log(titleCase('This is the title'));
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
