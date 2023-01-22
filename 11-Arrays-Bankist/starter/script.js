@@ -554,49 +554,73 @@ const dogs = [
 
 GOOD LUCK 😀
 */
-const dogs = [
-  { weight: 22, curFood: 284, owners: ['Alice', 'Bob'] },
-  { weight: 8, curFood: 200, owners: ['Matilda'] },
-  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
-  { weight: 32, curFood: 340, owners: ['Michael'] },
-];
+// const dogs = [
+//   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+//   { weight: 8, curFood: 200, owners: ['Matilda'] },
+//   { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+//   { weight: 32, curFood: 340, owners: ['Michael'] },
+// ];
 
-//To add recommended food
-dogs.map(obj => {
-  obj.recommendedFood = Math.trunc(obj.weight ** 0.75 * 28);
-});
-console.log(dogs);
-//to find sarah's dogs food habit
-const sarahD = dogs.find(dog => dog.owners.includes('Sarah'));
-console.log(sarahD);
-if (sarahD.curFood > sarahD.recommendedFood) console.log('FAt');
-else console.log('Not Fat');
+// //1
+// //To add recommended food
+// dogs.map(obj => {
+//   obj.recommendedFood = Math.trunc(obj.weight ** 0.75 * 28);
+// });
+// console.log(dogs);
+// //to find sarah's dogs food habit
 
-//owners whose dog eat too much or too little
-const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
-  (arr, curr) => {
-    curr.curFood > curr.recommendedFood
-      ? arr.ownersEatTooMuch.push(...curr.owners)
-      : arr.ownersEatTooLittle.push(...curr.owners);
-    return arr;
-  },
-  { ownersEatTooMuch: [], ownersEatTooLittle: [] }
-);
-console.log(ownersEatTooMuch, ownersEatTooLittle);
+// //2
+// const sarahD = dogs.find(dog => dog.owners.includes('Sarah'));
+// console.log(sarahD);
+// if (sarahD.curFood > sarahD.recommendedFood) console.log('FAt');
+// else console.log('Not Fat');
 
-const y = function (ownersEatToo, s) {
-  return ownersEatToo.reduce((str, much, i, x) => {
-    str = str + much + (x.length - 1 === i ? s : ' and ');
-    return str;
-  }, '');
-};
-console.log(y(ownersEatTooMuch, "'s dogs eat too much!"));
-console.log(y(ownersEatTooLittle, "'s dogs eat too little!"));
-console.log(dogs);
-console.log(
-  dogs.reduce((sum, cur) => {
-    console.log(cur.curFood);
-    console.log(cur.recommendedFood);
-    return 'x';
-  })
-);
+// //3
+// //owners whose dog eat too much or too little
+// const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
+//   (arr, curr) => {
+//     curr.curFood > curr.recommendedFood
+//       ? arr.ownersEatTooMuch.push(...curr.owners)
+//       : arr.ownersEatTooLittle.push(...curr.owners);
+//     return arr;
+//   },
+//   { ownersEatTooMuch: [], ownersEatTooLittle: [] }
+// );
+// console.log(ownersEatTooMuch, ownersEatTooLittle);
+
+// //4
+// const y = function (ownersEatToo, s) {
+//   return ownersEatToo.reduce((str, much, i, x) => {
+//     str = str + much + (x.length - 1 === i ? s : ' and ');
+//     return str;
+//   }, '');
+// };
+// console.log(y(ownersEatTooMuch, "'s dogs eat too much!"));
+// console.log(y(ownersEatTooLittle, "'s dogs eat too little!"));
+// console.log(dogs);
+
+// //5
+// console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
+
+// //6
+// console.log(
+//   dogs.some(
+//     dog =>
+//       dog.curFood > dog.recommendedFood * 0.9 &&
+//       dog.curFood < dog.recommendedFood * 1.1
+//   )
+// );
+
+// //7
+// const okayFood = dogs.filter(
+//   dog =>
+//     dog.curFood > dog.recommendedFood * 0.9 &&
+//     dog.curFood < dog.recommendedFood * 1.1
+// );
+// console.log(okayFood);
+
+// //8
+// const dogsCopy = [...dogs];
+// console.log(dogsCopy);
+// dogsCopy.sort((a, b) => a.recommendedFood - b.recommendedFood);
+// console.log(dogsCopy);
