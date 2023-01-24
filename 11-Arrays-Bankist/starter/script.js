@@ -524,7 +524,7 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount.movements, true);
   sorted = !sorted;
 });
-///////////////////////////////////////
+
 // Coding Challenge #4
 
 /* 
