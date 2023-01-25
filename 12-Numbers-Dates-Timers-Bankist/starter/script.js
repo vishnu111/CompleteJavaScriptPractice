@@ -248,40 +248,178 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
-/////////////////////////////////////////////////
-// LECTURES
+// /////////////////////////////////////////////////
+// // LECTURES
+// ///////////////////////////////////////
+// // Converting and Checking Numbers
+// console.log(23 === 23.0);
+
+// // Base 10 - 0 to 9. 1/10 = 0.1. 3/10 = 3.3333333
+// // Binary base 2 - 0 1
+// console.log(0.1 + 0.2);
+// console.log(0.1 + 0.2 === 0.3);
+
+// // Conversion
+// console.log(Number('23'));
+// console.log(+'23');
+
+// // Parsing
+// console.log(Number.parseInt('30px', 10));
+// console.log(Number.parseInt('e23', 10));
+
+// console.log(Number.parseInt('  2.5rem  '));
+// console.log(Number.parseFloat('  2.5rem  '));
+
+// // Check if value is NaN
+// console.log(Number.isNaN(20));
+// console.log(Number.isNaN('20'));
+// console.log(Number.isNaN(+'20X'));
+// console.log(Number.isNaN(23 / 0));
+
+// // Checking if value is number
+// console.log(Number.isFinite(20));
+// console.log(Number.isFinite('20'));
+// console.log(Number.isFinite(+'20X'));
+// console.log(Number.isFinite(23 / 0));
+
+// console.log(Number.isInteger(23));
+// console.log(Number.isInteger(23.0));
+// console.log(Number.isInteger(23 / 0));
+
+// ///////////////////////////////////////
+// // Math and Rounding
+// console.log(Math.sqrt(25));
+// console.log(25 ** (1 / 2));
+// console.log(8 ** (1 / 3)); //we are during cubic root of 8
+
+// console.log(Math.max(5, 18, 23, 11, 2));
+// console.log(Math.max(5, 18, '23', 11, 2)); //this method supports type coersion: which converts strings to numbers by itself
+// console.log(Math.max(5, 18, '23px', 11, 2));
+// console.log(Math.min(5, 18, 23, 11, 2));
+
+// console.log(Math.PI * Number.parseFloat('10px') ** 2);
+// console.log(Math.trunc(Math.random() * 6) + 1);
+
+// //In this fuction, if we pass a min and max number: a random number between them is passed
+// const randomInt = (min, max) =>
+//   Math.floor(Math.random() * (max - min) + 1) + min;
+// // 0...1 -> 0...(max - min) -> min...max
+// // console.log(randomInt(10, 20));
+
+// // Rounding integers
+// //This method rounds to the nearest integer: lower number if less than 0.5 else higher number
+// console.log(Math.round(23.4));
+// console.log(Math.round(23.9));
+
+// console.log(Math.ceil(23.3));
+// console.log(Math.ceil(23.9));
+
+// console.log(Math.floor(23.3));
+// console.log(Math.floor('23.9')); //supprts type coresion also
+
+// console.log(Math.trunc(23.3));
+
+// //diff between trunc and floor shown here
+// console.log(Math.trunc(-23.3));
+// console.log(Math.floor(-23.3));
+
+// // Rounding decimals
+// console.log((2.7).toFixed(0));
+// console.log((2.7).toFixed(3));
+// console.log((2.345).toFixed(2));
+// console.log(+(2.345).toFixed(2));
+
+// ///////////////////////////////////////
+// // Numeric Separators
+// // "_" is used as a numeric separator, it is only visually: the value of the number does not change
+// const diameter = 287_460_000_000;
+// console.log(diameter);
+// const price = 345_99;
+// console.log(price);
+
+// const transferFee1 = 15_00;
+// const transferFee2 = 1_500;
+
+// //Also, we can only use the numeric separator only between numbers:  CAN NOT us as this -> 3._1415 or 3_.1415.
+// const PI = 3.1415;
+// console.log(PI);
+
+// //(String numbers) with numeric separators can't be converted to numbers
+// console.log(Number('230_000'));
+// console.log(parseInt('230_000'));
+
+// ///////////////////////////////////////
+// // Working with BigInt
+// console.log(2 ** 53 - 1);
+// console.log(Number.MAX_SAFE_INTEGER); //This is the max value JS supports without bignInt
+
+// //All the below operations results in faulty caluculations since the result is bigger than JS supported number
+// console.log(2 ** 53 + 1);
+// console.log(2 ** 53 + 2);
+// console.log(2 ** 53 + 3);
+// console.log(2 ** 53 + 4);
+
+// //Two ways to converting a number to bigInt
+// console.log(4838430248342043823408394839483204n);
+// console.log(BigInt(48384302));
+
+// // Operations: we can only do the below operations with two bigInt numbers only: NOT with one bigInt and normal number
+// console.log(10000n + 10000n);
+// console.log(36286372637263726376237263726372632n * 10000000n);
+
+// //Can't do math operations on bigint
+// // console.log(Math.sqrt(16n));
+
+// const huge = 20289830237283728378237n;
+// const num = 23;
+// console.log(huge * BigInt(num));
+
+// // Exceptions
+// console.log(20n > 15);
+// console.log(20n === 20);
+// console.log(typeof 20n);
+// console.log(20n == '20');
+// console.log(huge + ' is REALLY big!!!');
+
+// // Divisions
+// console.log(11n / 3n);
+// console.log(10 / 3);
+
+// const now = new Date();
+// console.log(now);
+
 ///////////////////////////////////////
-// Converting and Checking Numbers
-console.log(23 === 23.0);
+// Creating Dates
 
-// Base 10 - 0 to 9. 1/10 = 0.1. 3/10 = 3.3333333
-// Binary base 2 - 0 1
-console.log(0.1 + 0.2);
-console.log(0.1 + 0.2 === 0.3);
+//Months in JS are 0 based, so -> JAN = 0 ...
+const now = new Date();
+console.log(now);
+//JS converts by default when you pass date related string to it like below
+console.log(new Date('Aug 02 2020 18:05:41'));
+console.log(new Date('December 24, 2015'));
+console.log(new Date(account1.movementsDates[0]));
 
-// Conversion
-console.log(Number('23'));
-console.log(+'23');
+console.log(new Date(2037, 10, 19, 15, 23, 5));
+console.log(new Date(2037, 10, 31));
 
-// Parsing
-console.log(Number.parseInt('30px', 10));
-console.log(Number.parseInt('e23', 10));
+console.log(new Date(0)); //This is the UNIX start date(Jan 1st 1970)
+console.log(new Date(3 * 24 * 60 * 60 * 1000)); //This is 3 days after UNIX start date (3d*24h*60m*60s*100ms): we have passed milli seconds into it.
 
-console.log(Number.parseInt('  2.5rem  '));
-console.log(Number.parseFloat('  2.5rem  '));
+// Working with dates
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime());
 
-// Check if value is NaN
-console.log(Number.isNaN(20));
-console.log(Number.isNaN('20'));
-console.log(Number.isNaN(+'20X'));
-console.log(Number.isNaN(23 / 0));
+console.log(new Date());
+console.log(Date.now());
 
-// Checking if value is number
-console.log(Number.isFinite(20));
-console.log(Number.isFinite('20'));
-console.log(Number.isFinite(+'20X'));
-console.log(Number.isFinite(23 / 0));
-
-console.log(Number.isInteger(23));
-console.log(Number.isInteger(23.0));
-console.log(Number.isInteger(23 / 0));
+future.setFullYear(2040);
+console.log(future);
