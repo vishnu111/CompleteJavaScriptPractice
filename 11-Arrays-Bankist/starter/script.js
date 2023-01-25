@@ -539,6 +539,24 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
+const formatDate = function (movDate) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  const noOfDays = calcDaysPassed(movDate, new Date());
+  if (noOfDays === 0) {
+    return 'Today';
+  } else if (noOfDays === 1) {
+    return 'Yesterday';
+  } else if (noOfDays <= 7) {
+    return '${noOfDays} days ago';
+  } else {
+    const day = `${movDate.getDate()}`.padStart(2, 0);
+    const month = `${movDate.getMonth() + 1}`.padStart(2, 0);
+    const year = movDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
+
 //create a displayMovements function passing account-1 as an argument
 //dispalay that to movements element in html
 //hide the old transactions, that are already there
@@ -550,10 +568,7 @@ const displayMovements = function (acc, sort = false) {
   movSort.forEach(function (value, i) {
     let type = value > 0 ? 'deposit' : 'withdrawal';
     const movDate = new Date(acc.movementsDates[i]);
-    const day = `${movDate.getDate()}`.padStart(2, 0);
-    const month = `${movDate.getMonth() + 1}`.padStart(2, 0);
-    const year = movDate.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatDate(movDate);
     let html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${

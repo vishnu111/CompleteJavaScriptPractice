@@ -391,35 +391,46 @@ btnSort.addEventListener('click', function (e) {
 ///////////////////////////////////////
 // Creating Dates
 
-//Months in JS are 0 based, so -> JAN = 0 ...
-const now = new Date();
-console.log(now);
-//JS converts by default when you pass date related string to it like below
-console.log(new Date('Aug 02 2020 18:05:41'));
-console.log(new Date('December 24, 2015'));
-console.log(new Date(account1.movementsDates[0]));
+// //Months in JS are 0 based, so -> JAN = 0 ...
+// const now = new Date();
+// console.log(now);
+// //JS converts by default when you pass date related string to it like below
+// console.log(new Date('Aug 02 2020 18:05:41'));
+// console.log(new Date('December 24, 2015'));
+// console.log(new Date(account1.movementsDates[0]));
 
-console.log(new Date(2037, 10, 19, 15, 23, 5));
-console.log(new Date(2037, 10, 31));
+// console.log(new Date(2037, 10, 19, 15, 23, 5));
+// console.log(new Date(2037, 10, 31));
 
-console.log(new Date(0)); //This is the UNIX start date(Jan 1st 1970)
-console.log(new Date(3 * 24 * 60 * 60 * 1000)); //This is 3 days after UNIX start date (3d*24h*60m*60s*100ms): we have passed milli seconds into it.
+// console.log(new Date(0)); //This is the UNIX start date(Jan 1st 1970)
+// console.log(new Date(3 * 24 * 60 * 60 * 1000)); //This is 3 days after UNIX start date (3d*24h*60m*60s*100ms): we have passed milli seconds into it.
 
-// Working with dates
-const future = new Date(2037, 10, 19, 15, 23);
-console.log(future);
-console.log(future.getFullYear());
-console.log(future.getMonth());
-console.log(future.getDate());
-console.log(future.getDay());
-console.log(future.getHours());
-console.log(future.getMinutes());
-console.log(future.getSeconds());
-console.log(future.toISOString());
-console.log(future.getTime());
+// // Working with dates
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(future);
+// console.log(future.getFullYear());
+// console.log(future.getMonth());
+// console.log(future.getDate());
+// console.log(future.getDay());
+// console.log(future.getHours());
+// console.log(future.getMinutes());
+// console.log(future.getSeconds());
+// console.log(future.toISOString());
+// console.log(future.getTime());
 
-console.log(new Date());
-console.log(Date.now());
+// console.log(new Date());
+// console.log(Date.now());
 
-future.setFullYear(2040);
-console.log(future);
+// future.setFullYear(2040);
+// console.log(future);
+
+// Operations With Dates
+//caluculating the days between two dates
+// const future = new Date(2037, 10, 19, 15, 23);
+// console.log(+future);
+
+// const calcDaysPassed = (date1, date2) =>
+//   Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
+
+// const days1 = calcDaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
+// console.log(`${days1} days`);
