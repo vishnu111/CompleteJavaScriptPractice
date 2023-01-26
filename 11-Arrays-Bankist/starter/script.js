@@ -438,6 +438,30 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //   navigator.language,
 //   new Intl.NumberFormat(navigator.language, options).format(num)
 // );
+///////////////////////////////////////
+// // Timers
+
+// // setTimeout
+// const ingredients = ['olives', 'spinach'];
+// const pizzaTimerRun = setTimeout(
+//   (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2} 🍕`),
+//   3000,
+//   ...ingredients
+// );
+// console.log('This wont stop for above timeout function to complete');
+
+// const pizzaTimerStop = setTimeout(
+//   (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2} 🍕`),
+//   3000,
+//   ...ingredients
+// );
+// if (ingredients.includes('spinach')) clearTimeout(pizzaTimerStop);
+
+// // setInterval
+// // setInterval(function () {
+// //   const now = new Date();
+// //   console.log(now);
+// // }, 1000);
 
 // Data
 const account1 = {
@@ -578,6 +602,8 @@ const formatDate = function (movDate, locale) {
   }
 };
 
+let currentAccount, timer;
+
 //Formating the currencies
 const formatCurrency = function (value) {
   return new Intl.NumberFormat(currentAccount.locale, {
@@ -651,12 +677,25 @@ const updateUI = function (acc) {
   calcDisplayBalance(acc);
   displayMovements(acc);
 };
-let currentAccount;
 
-//FAKING that the account is always logged in for development purpose
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+//Logout timer
+const startLogOutTimer = function () {
+  const logOutInternal = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+    if (time == 0) {
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = `Log in to get started`;
+    }
+    time--;
+  };
+  let time = 30;
+  logOutInternal();
+  timer = setInterval(logOutInternal, 1000);
+};
 
 //Login functionality implementation
 btnLogin.addEventListener('click', function (e) {
@@ -684,6 +723,11 @@ btnLogin.addEventListener('click', function (e) {
 
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    //check to clear the timer when user logs in
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
     updateUI(currentAccount);
   }
 });
@@ -708,6 +752,10 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAccount.movements.push(amount);
     receiverAccount.movementsDates.push(new Date().toISOString());
     updateUI(currentAccount);
+
+    //Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -735,9 +783,15 @@ btnLoan.addEventListener('click', function (e) {
     loanAmount > 0 &&
     currentAccount.movements.some(val => val >= loanAmount * 0.1)
   ) {
-    currentAccount.movements.push(loanAmount);
-    currentAccount.movementsDates.push(new Date().toISOString());
-    updateUI(currentAccount);
+    setTimeout(function () {
+      currentAccount.movements.push(loanAmount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updateUI(currentAccount);
+
+      //Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
