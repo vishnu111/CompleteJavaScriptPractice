@@ -386,6 +386,42 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
 // });
 
+// const bankDepositSum = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .filter(el => el > 0)
+//   .reduce((sum, cur) => sum + cur);
+// console.log(bankDepositSum);
+// const numDeposits1000 = accounts
+//   .flatMap(account => account.movements)
+//   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+// console.log(numDeposits1000);
+// const { deposit, withdrawal } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (count, cur) => {
+//       cur > 0 ? (count.deposit += cur) : (count.withdrawal -= cur);
+//       return count;
+//     },
+//     { deposit: 0, withdrawal: 0 }
+//   );
+// console.log(deposit, withdrawal);
+// //A function that accepts a string and convert that to the title case
+// const titleCase = function (title) {
+//   const titleWords = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
+//   const splitWord = title
+//     .toLowerCase()
+//     .split(' ')
+//     .reduce((sum, cur) => {
+//       titleWords.includes(cur)
+//         ? (sum += cur + ' ')
+//         : (sum += cur.replace(cur[0], cur[0].toUpperCase()) + ' ');
+//       return sum;
+//     }, '');
+//   console.log(splitWord);
+// };
+// console.log(titleCase('This is the title'));
+
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
@@ -403,7 +439,7 @@ const account1 = {
     '2020-08-01T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT', // de-DE
+  locale: 'en-GB', // de-DE
 };
 
 const account2 = {
@@ -422,7 +458,7 @@ const account2 = {
     '2020-08-01T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT', // de-DE
+  locale: 'en-US', // de-DE
 };
 
 const account3 = {
@@ -467,42 +503,6 @@ const accounts = [account1, account2, account3, account4];
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// const bankDepositSum = accounts
-//   .map(acc => acc.movements)
-//   .flat()
-//   .filter(el => el > 0)
-//   .reduce((sum, cur) => sum + cur);
-// console.log(bankDepositSum);
-// const numDeposits1000 = accounts
-//   .flatMap(account => account.movements)
-//   .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
-// console.log(numDeposits1000);
-// const { deposit, withdrawal } = accounts
-//   .flatMap(acc => acc.movements)
-//   .reduce(
-//     (count, cur) => {
-//       cur > 0 ? (count.deposit += cur) : (count.withdrawal -= cur);
-//       return count;
-//     },
-//     { deposit: 0, withdrawal: 0 }
-//   );
-// console.log(deposit, withdrawal);
-// //A function that accepts a string and convert that to the title case
-// const titleCase = function (title) {
-//   const titleWords = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
-//   const splitWord = title
-//     .toLowerCase()
-//     .split(' ')
-//     .reduce((sum, cur) => {
-//       titleWords.includes(cur)
-//         ? (sum += cur + ' ')
-//         : (sum += cur.replace(cur[0], cur[0].toUpperCase()) + ' ');
-//       return sum;
-//     }, '');
-//   console.log(splitWord);
-// };
-// console.log(titleCase('This is the title'));
-
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -539,7 +539,7 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const formatDate = function (movDate) {
+const formatDate = function (movDate, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   const noOfDays = calcDaysPassed(movDate, new Date());
@@ -550,10 +550,14 @@ const formatDate = function (movDate) {
   } else if (noOfDays <= 7) {
     return '${noOfDays} days ago';
   } else {
-    const day = `${movDate.getDate()}`.padStart(2, 0);
-    const month = `${movDate.getMonth() + 1}`.padStart(2, 0);
-    const year = movDate.getFullYear();
-    return `${day}/${month}/${year}`;
+    const dateOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+    return new Intl.DateTimeFormat(locale, dateOptions).format(movDate);
   }
 };
 
@@ -568,7 +572,7 @@ const displayMovements = function (acc, sort = false) {
   movSort.forEach(function (value, i) {
     let type = value > 0 ? 'deposit' : 'withdrawal';
     const movDate = new Date(acc.movementsDates[i]);
-    const displayDate = formatDate(movDate);
+    const displayDate = formatDate(movDate, currentAccount.locale);
     let html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${
@@ -638,13 +642,21 @@ btnLogin.addEventListener('click', function (e) {
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     containerApp.style.opacity = 100;
     labelWelcome.textContent = `Welcome ${currentAccount.owner.split(' ')[0]}`;
-    const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+
+    //localizations of dates
+    const locDate = new Date();
+    const dateOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      dateOptions
+    ).format(locDate);
+
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
     updateUI(currentAccount);
