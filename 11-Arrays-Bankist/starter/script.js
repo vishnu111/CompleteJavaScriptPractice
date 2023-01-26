@@ -421,6 +421,23 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]*/
 //   console.log(splitWord);
 // };
 // console.log(titleCase('This is the title'));
+// Internationalizing Numbers (Intl)
+// const num = 3884764.23;
+
+// //There many types of options like currency
+// const options = {
+//   style: 'currency',
+//   currency: 'EUR',
+//   // useGrouping: false, (used to remove the number seperators like "," or ".")
+// };
+
+// console.log('US:      ', new Intl.NumberFormat('en-US', options).format(num));
+// console.log('Germany: ', new Intl.NumberFormat('de-DE', options).format(num));
+// console.log('Syria:   ', new Intl.NumberFormat('ar-SY', options).format(num));
+// console.log(
+//   navigator.language,
+//   new Intl.NumberFormat(navigator.language, options).format(num)
+// );
 
 // Data
 const account1 = {
@@ -457,7 +474,7 @@ const account2 = {
     '2020-07-28T23:36:17.929Z',
     '2020-08-01T10:51:36.790Z',
   ],
-  currency: 'EUR',
+  currency: 'USD',
   locale: 'en-US', // de-DE
 };
 
@@ -561,6 +578,13 @@ const formatDate = function (movDate, locale) {
   }
 };
 
+//Formating the currencies
+const formatCurrency = function (value) {
+  return new Intl.NumberFormat(currentAccount.locale, {
+    style: 'currency',
+    currency: currentAccount.currency,
+  }).format(value);
+};
 //create a displayMovements function passing account-1 as an argument
 //dispalay that to movements element in html
 //hide the old transactions, that are already there
@@ -573,13 +597,14 @@ const displayMovements = function (acc, sort = false) {
     let type = value > 0 ? 'deposit' : 'withdrawal';
     const movDate = new Date(acc.movementsDates[i]);
     const displayDate = formatDate(movDate, currentAccount.locale);
+
     let html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
     <div class="movements__date">${displayDate}</div>
-      <div class="movements__value">${value.toFixed(2)}€</div>
+      <div class="movements__value">${formatCurrency(value)}</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -602,7 +627,7 @@ createUsernames(accounts);
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, val) => acc + val, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  labelBalance.textContent = `${formatCurrency(acc.balance.toFixed(2))}`;
 };
 
 const calcDisplaySummery = function (accTrans) {
@@ -617,9 +642,9 @@ const calcDisplaySummery = function (accTrans) {
     .map(val => (val * accTrans.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((acc, int) => acc + int);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
-  labelSumOut.textContent = `${Math.abs(expenses).toFixed(2)}€`;
-  labelSumInterest.textContent = `${intrest.toFixed(2)}€`;
+  labelSumIn.textContent = `${formatCurrency(incomes.toFixed(2))}`;
+  labelSumOut.textContent = `${formatCurrency(Math.abs(expenses).toFixed(2))}`;
+  labelSumInterest.textContent = `${formatCurrency(intrest.toFixed(2))}`;
 };
 const updateUI = function (acc) {
   calcDisplaySummery(acc);
