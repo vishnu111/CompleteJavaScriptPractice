@@ -213,8 +213,101 @@ btnScrollTo.addEventListener('click', function (e) {
 //1) Add Event Listener to the parent element
 //2) Determine which element originated the event
 document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+// ///////////////////////////////////////
+// // DOM Traversing
+// const h1 = document.querySelector('h1');
+
+// // Going downwards: child
+// //selects all the children elements that has "highlight as class"
+// console.log(h1.querySelectorAll('.highlight'));
+// //Selects all the child elements in NodeList form
+// console.log(h1.childNodes);
+// //selects all the child elements in HTMLCollection
+// console.log(h1.children);
+// //selects the first child of h1
+// h1.firstElementChild.style.color = 'white';
+// //selects the last child of h1
+// h1.lastElementChild.style.color = 'orangered';
+
+// // Going upwards: parents
+// //Selecting the immediate parent Node/Element
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
+
+// //This selects the closest parent element of h1 that has "header" class
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+
+// //Since 'h1' itself is closest to it, it selects the same
+// h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// // Going sideways: siblings
+// //Selects the previous and next siblings in HTMLCollection
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+// //Selects the previous and next siblings in NodeList
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling);
+
+// //Here we are selecting the parent of h1 and then from that parent we are selecting it's children which includes the "h1"
+// console.log(h1.parentElement.children);
+// [...h1.parentElement.children].forEach(function (el) {
+//   if (el !== h1) el.style.transform = 'scale(0.5)';
+// });
+
+//implementing tabs
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content ');
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+
+  //Gaurd clause
+  if (!clicked) return;
+
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(tb => tb.classList.remove('operations__content--active'));
+
+  //Activate tab
+  clicked.classList.add('operations__tab--active');
+
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+//Menu Fade Animation
+const nav = document.querySelector('.nav');
+
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(l => {
+      if (l != link) l.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+//Hover-in event
+// nav.addEventListener('mouseover', function (e) {
+//   handleHover(e, 0.5);
+// });
+//(or)
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+//Hover-out event
+// nav.addEventListener('mouseout', function (e) {
+//   handleHover(e, 1);
+// });
+//(or)
+nav.addEventListener('mouseout', handleHover.bind(1));
+//This bind method creates a this keyword with whatever the value we pass to that bind function
