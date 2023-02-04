@@ -311,3 +311,10 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 //(or)
 nav.addEventListener('mouseout', handleHover.bind(1));
 //This bind method creates a this keyword with whatever the value we pass to that bind function
+
+//Sticky navigation
+window.addEventListener('scroll', function () {
+  if (this.window.scrollY > section1.getBoundingClientRect().top)
+    nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
