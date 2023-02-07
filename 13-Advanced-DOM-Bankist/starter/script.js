@@ -312,9 +312,80 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 //This bind method creates a this keyword with whatever the value we pass to that bind function
 
-//Sticky navigation
-window.addEventListener('scroll', function () {
-  if (this.window.scrollY > section1.getBoundingClientRect().top)
-    nav.classList.add('sticky');
+//Sticky navigation : NOT EFFICIENT WAY
+// window.addEventListener('scroll', function () {
+//   if (this.window.scrollY > section1.getBoundingClientRect().top)
+//     nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+//Sticky Navigation example(not actual implementation): Intersection Observer API : this is superior and efficient to the above one to implement sticky navigation because this only invokes when the section one comes into view unlike the above where is invokes whenever the scroll event happens
+// const obsCallback = function (entries, observer) {};
+// const obsOptions = {
+//   root: null,
+//   threshold: 1,
+// };
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// //This obsCallBAck function call happens when the section1 intersects(it basically means when the section1 comes into view at 10% of it's size) the viewport at 10% threshold (DEFINED IN obsOptions)
+// observer.observe(section1);
+
+//Sticky Navigation : actual site implementation with Intersection Observer API
+const header = document.querySelector('.header');
+//To get the height of the nav bar
+const navHeight = document.querySelector('.nav').getBoundingClientRect().height;
+const stObCB = function (entries) {
+  //This is the threshold array
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+};
+
+//Sections fadeIn as they come into view
+const stickyObserver = new IntersectionObserver(stObCB, {
+  root: null,
+  //This allows us to invoke stObCB whenever it is out of viewport view
+  threshold: 0,
+  //This allows us to invoke stObCM whenever the header is 90px short of coming into view
+  rootMargin: `-${navHeight}px`,
 });
+stickyObserver.observe(header);
+
+const allSections = document.querySelectorAll('.section');
+
+const secFadeCall = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+const secFadeIn = new IntersectionObserver(secFadeCall, {
+  root: null,
+  threshold: 0.11,
+});
+
+allSections.forEach(sec => {
+  secFadeIn.observe(sec);
+  //sec.classList.add('section--hidden');
+});
+
+//Lazy loading images in the site: First a low resoultion image is loading when site is opened. when we keep on scrolling the low resolution images will get replaced with high-res images with the below operations
+//We are selecting all the HTML image tag elements with data-src attribute
+const lazyImg = document.querySelectorAll('img[data-src]');
+
+const lazyImgCall = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.dataset.src;
+  //The lazy-img class gives the low-res image a blur effect: when the high-res image is loaded we will remove that blur, we are not removing the laz-img class like below because sometimes when slow internet connection the high-res image loading might take time. we only want to show the high-res image only it is fully loaded: so, we are using the eventlister for load on img section
+  //entry.target.classList.remove('lazy-img');
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+const lazyImgObserver = new IntersectionObserver(lazyImgCall, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+lazyImg.forEach(img => lazyImgObserver.observe(img));
