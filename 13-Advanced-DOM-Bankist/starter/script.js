@@ -389,3 +389,28 @@ const lazyImgObserver = new IntersectionObserver(lazyImgCall, {
   rootMargin: '200px',
 });
 lazyImg.forEach(img => lazyImgObserver.observe(img));
+
+//Slider(testimonials)
+const slider = document.querySelector('.slider');
+const allSliders = document.querySelectorAll('.slide');
+const prevBtn = document.querySelector('.slider__btn--left');
+const nextBtn = document.querySelector('.slider__btn--right');
+let curSlide = 0;
+const sliderLen = allSliders.length;
+const slideOp = function (slide) {
+  allSliders.forEach((s, i) => {
+    s.style.transform = `translateX(${100 * (i - slide)}%)`;
+  });
+};
+slideOp(0);
+
+nextBtn.addEventListener('click', function () {
+  if (curSlide != allSliders.length - 1) curSlide++;
+  else curSlide = 0;
+  slideOp(curSlide);
+});
+prevBtn.addEventListener('click', function () {
+  if (curSlide != 0) curSlide--;
+  else curSlide = sliderLen - 1;
+  slideOp(curSlide);
+});
