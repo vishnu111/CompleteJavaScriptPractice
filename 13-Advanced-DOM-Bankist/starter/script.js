@@ -400,12 +400,15 @@ const sliderFn = function () {
   const dotsContainer = document.querySelector('.dots');
   let curSlide = 0;
   const sliderLen = allSliders.length;
+
+  //adds the required translateX property to all sliders based on the active slider passed as an argument
   const slideOp = function (slide) {
     allSliders.forEach((s, i) => {
       s.style.transform = `translateX(${100 * (i - slide)}%)`;
     });
   };
-  //adding slide dots HTML by dynamically counting the slides
+
+  //adding slide dots HTML elements by dynamically counting the slides
   const addDots = function () {
     allSliders.forEach(function (_, i) {
       dotsContainer.insertAdjacentHTML(
@@ -415,6 +418,7 @@ const sliderFn = function () {
     });
   };
 
+  //Adds the dots__dot--active class for the dots for the active slider
   const activeSlide = function (slide) {
     document
       .querySelectorAll('.dots__dot')
@@ -424,18 +428,23 @@ const sliderFn = function () {
       .classList.add('dots__dot--active');
   };
 
+  //Invokes the below function by default on page load
   const init = function () {
     slideOp(0);
     addDots();
     activeSlide(0);
   };
   init();
+
+  //function for prevslide, if no pre slide goes to last slide
   const prevSlide = function () {
     if (curSlide != 0) curSlide--;
     else curSlide = sliderLen - 1;
     slideOp(curSlide);
     activeSlide(curSlide);
   };
+
+  //function for next slide, if no next slide goes to first slide
   const nxtSlide = function () {
     if (curSlide != allSliders.length - 1) curSlide++;
     else curSlide = 0;
@@ -451,7 +460,7 @@ const sliderFn = function () {
     e.key === 'ArrowLeft' && prevSlide();
   });
 
-  //Adding Event listerner to the parent dots element
+  //Adding Event listerner to the parent dots element : Event propagation
   dotsContainer.addEventListener('click', function (e) {
     const elem = e.target.classList;
     console.log(elem);
