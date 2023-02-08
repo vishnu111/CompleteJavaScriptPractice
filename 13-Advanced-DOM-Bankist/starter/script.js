@@ -261,6 +261,25 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 //   if (el !== h1) el.style.transform = 'scale(0.5)';
 // });
 
+// ///////////////////////////////////////
+// // Lifecycle DOM Events
+// //This event triggers as soon as the HTML is parsed and DOM tree is built but before images and all the css is loaded
+// document.addEventListener('DOMContentLoaded', function (e) {
+//   console.log('HTML parsed and DOM tree built!', e);
+// });
+
+// //This event triggers as soon as the page completly loads with images, css and pretty much everything
+// window.addEventListener('load', function (e) {
+//   console.log('Page fully loaded', e);
+// });
+
+// //This event triggers when you try to close the tab and website wants to warn you before closing: previsously in the e.returnValue we can assign a string and it would show when closing tab, but now it(browser) just shows the default message
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
+
 //implementing tabs
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
