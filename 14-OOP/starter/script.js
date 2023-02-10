@@ -114,13 +114,14 @@ const merc = new Car('Mercedes', 95);
 
 // Class declaration
 class PersonCl {
+  //constructor
   constructor(fullName, birthYear) {
     this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
   // Instance methods
-  // Methods will be added to .prototype property
+  // Methods will be added to the prototype property like it does in constructor functions when we do (CONSTRUCTOR_NAME.Prototype.METHOD_NAME = function(){})
   calcAge() {
     console.log(2037 - this.birthYear);
   }
@@ -129,22 +130,24 @@ class PersonCl {
     console.log(`Hey ${this.fullName}`);
   }
 
-  //getters and setters: a setter method should have excatly one property, we can only use getter or setter or both
+  //getters and setters: a setter method should have excatly one property, we can either use getter or setter or both
   get age() {
     return 2037 - this.birthYear;
   }
 
-  // Set a property that already exists
+  // Set a property that already exists: when we try to set this.fullName = fullName, this method will be called and this._fullName = fullName will be set
   set fullName(name) {
+    //By convention is Javascript if a property exist, if we want to implicitly override that we can use same variable name with underscore at the start
     if (name.includes(' ')) this._fullName = name;
     else alert(`${name} is not a full name!`);
   }
 
+  //Here, when we try to access this.fullName from outside, this getter will be called and this._fullName will be returned
   get fullName() {
     return this._fullName;
   }
 
-  // Static method
+  // Static method: we can't use objects to invoke the static method, instead we should use the class name
   static hey() {
     console.log('Hey there 👋');
     console.log(this);
@@ -152,21 +155,21 @@ class PersonCl {
 }
 
 const jessica = new PersonCl('Jessica Davis', 1996);
-console.log(jessica);
-jessica.calcAge();
+// console.log(jessica);
+// jessica.calcAge();
 //calling getter here
-console.log(jessica.age);
+// console.log(jessica.age);
 
-console.log(jessica.__proto__ === PersonCl.prototype);
-
+// console.log(jessica.__proto__ === PersonCl.prototype);
+//
 // PersonCl.prototype.greet = function () {
 //   console.log(`Hey ${this.firstName}`);
 // };
-jessica.greet();
+// jessica.greet();
 
 // 1. Classes are NOT hoisted
 // 2. Classes are first-class citizens (we can pass class to function and return class in functions)
 // 3. Classes are executed in strict mode by default
 
-const walter = new PersonCl('Walter White', 1965);
+// const walter = new PersonCl('Walter White', 1965);
 // PersonCl.hey();
