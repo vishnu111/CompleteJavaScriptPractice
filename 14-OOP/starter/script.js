@@ -254,43 +254,77 @@
 // Inheritance Between "Classes": Constructor Functions
 //Inheritance using Constructor functions and Object.create
 //Person Constructor function
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// };
+
+// //Adding prototype methods to above contructor function
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
+
+// //New Student Constructor function
+// const Student = function (firstName, birthYear, course) {
+//   Person.call(this, firstName, birthYear);
+//   this.course = course;
+// };
+
+// // Linking prototypes: we are achieving inheritance here by linking prototypes, now student objects can use the prototype methods of Person function. We have to link this before adding any prototype methods to the student because this object.create might override those methods
+// Student.prototype = Object.create(Person.prototype);
+
+// //Adding new prototype method to Student Constructor function
+// Student.prototype.introduce = function () {
+//   console.log(`My name is ${this.firstName} and I study ${this.course}`);
+// };
+
+// //Creating an object from Student Constructor function
+// const mike = new Student('Mike', 2020, 'Computer Science');
+// mike.introduce();
+// //Calling Person prototype method from Student's object/instance which is mike because they are inherited
+// mike.calcAge();
+
+// console.log(mike.__proto__);
+// console.log(mike.__proto__.__proto__);
+// console.log(mike instanceof Student);
+// console.log(mike instanceof Person);
+// console.log(mike instanceof Object);
+// //This Student.prototype.constructor should return student ideally, but it returns Person because of prototype linkage using Object.create. We can override that(we are doing that at line @295)
+// console.dir(Student.prototype.constructor);
+// Student.prototype.constructor = Student;
+// console.dir(Student.prototype.constructor);
+
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+Car.prototype.accelerate = function () {
+  this.speed = this.speed + 10;
+  console.log(this.speed);
+};
+Car.prototype.break = function () {
+  this.speed = this.speed - 10;
+  console.log(this.speed);
 };
 
-//Adding prototype methods to above contructor function
-Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear);
+const EV = function (make, speed, charge) {
+  this.make = make;
+  this.speed = speed;
+  this.charge = charge;
 };
+EV.prototype = Object.create(Car.prototype);
 
-//New Student Constructor function
-const Student = function (firstName, birthYear, course) {
-  Person.call(this, firstName, birthYear);
-  this.course = course;
+EV.prototype.chargeBattery = function (curCharge) {
+  this.charge = curCharge;
 };
-
-// Linking prototypes: we are achieving inheritance here by linking prototypes, now student objects can use the prototype methods of Person function. We have to link this before adding any prototype methods to the student because this object.create might override those methods
-Student.prototype = Object.create(Person.prototype);
-
-//Adding new prototype method to Student Constructor function
-Student.prototype.introduce = function () {
-  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+EV.prototype.accelerate = function () {
+  this.speed = this.speed + 20;
+  this.charge -= 1;
+  console.log(
+    `Tesla going at ${this.speed} km/h, with a charge of ${this.charge}%`
+  );
 };
-
-//Creating an object from Student Constructor function
-const mike = new Student('Mike', 2020, 'Computer Science');
-mike.introduce();
-//Calling Person prototype method from Student's object/instance which is mike because they are inherited
-mike.calcAge();
-
-console.log(mike.__proto__);
-console.log(mike.__proto__.__proto__);
-
-console.log(mike instanceof Student);
-console.log(mike instanceof Person);
-console.log(mike instanceof Object);
-//This Student.prototype.constructor should return student ideally, but it returns Person because of prototype linkage using Object.create. We can override that(we are doing that at line @295)
-console.dir(Student.prototype.constructor);
-Student.prototype.constructor = Student;
-console.dir(Student.prototype.constructor);
+const tesl = new EV('tesla', 120, 23);
+tesl.accelerate();
+tesl.chargeBattery(100);
+tesl.accelerate();
