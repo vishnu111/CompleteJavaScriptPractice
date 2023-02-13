@@ -224,32 +224,6 @@
 // const bmw = new Car('BMW', 120);
 // const merc = new Car('Mercedes', 95);
 
-//#challange-2
-// class CarE {
-//   constructor(make, speed) {
-//     this.make = make;
-//     this.speed = speed;
-//   }
-//   accelerate() {
-//     this.speed = this.speed + 10;
-//     console.log(this.speed);
-//   }
-//   break() {
-//     this.speed = this.speed - 10;
-//     console.log(this.speed);
-//   }
-//   get speedUS() {
-//     return this.speed / 1.6;
-//   }
-//   set speedUS(speed) {
-//     this.speed = this.speed * 1.6;
-//   }
-// }
-// const ford = new CarE('ford', 120);
-// console.log(ford);
-// ford.speedUS = 120;
-// console.log(ford.speedUS);
-
 ///////////////////////////////////////
 // Inheritance Between "Classes": Constructor Functions
 //Inheritance using Constructor functions and Object.create
