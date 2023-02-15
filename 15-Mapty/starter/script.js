@@ -48,7 +48,15 @@ navigator.geolocation.getCurrentPosition(
   }
 );
 
-form.addEventListener('submit', function () {
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  //clear input fields
+  inputDistance.value =
+    inputDuration.value =
+    inputCadence.value =
+    inputDuration.value =
+      '';
+
   const { lat, lng } = mapEvent.latlng;
   //This marker method and inner methods of leaflet's library documentation can be found here "https://leafletjs.com/reference.html#marker"
   L.marker([lat, lng])
@@ -65,4 +73,8 @@ form.addEventListener('submit', function () {
     )
     .setPopupContent('workout')
     .openPopup();
+});
+inputType.addEventListener('change', function () {
+  inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+  inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
 });
