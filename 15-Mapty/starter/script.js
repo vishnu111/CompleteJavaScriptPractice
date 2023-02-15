@@ -39,9 +39,20 @@ navigator.geolocation.getCurrentPosition(
     //Here on is a leaflet's function
     map.on('click', function (mapEvent) {
       const { lat, lng } = mapEvent.latlng;
+      //This marker method and inner methods of leaflet's library documentation can be found here "https://leafletjs.com/reference.html#marker"
       L.marker([lat, lng])
         .addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        .bindPopup(
+          L.popup({
+            //options passed to popup method
+            maxWidth: 250,
+            minWidth: 100,
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+          })
+        )
+        .setPopupContent('workout')
         .openPopup();
     });
   },
