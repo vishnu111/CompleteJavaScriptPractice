@@ -35,25 +35,6 @@ const countriesContainer = document.querySelector('.countries');
 // getCountryData('india');
 // getCountryData('usa');
 // getCountryData('pakistan');
-
-// const renderCountry = function (data, className = '') {
-//   const html = `
-//     <article class="country ${className}">
-//     <img class="country__img" src="${data.flags.svg}" />
-//     <div class="country__data">
-//       <h3 class="country__name">${data.name.official}</h3>
-//       <h4 class="country__region">${data.region}</h4>
-//       <p class="country__row"><span>👫</span>${(
-//         +data.population / 1000000
-//       ).toFixed(1)}M People</p>
-//       <p class="country__row"><span>🗣️</span>${data.languages.eng}</p>
-//       <p class="country__row"><span>💰</span>${data.currencies.name}</p>
-//     </div>
-//   </article>
-//     `;
-//   countriesContainer.insertAdjacentHTML('beforeend', html);
-//   countriesContainer.style.opacity = 1;
-// };
 // const getCountryAndNeighbour = function (country) {
 //   const request = new XMLHttpRequest();
 //   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
@@ -92,3 +73,60 @@ const countriesContainer = document.querySelector('.countries');
 //     }, 1000);
 //   }, 1000);
 // }, 1000);
+
+//AJAX call using promise and fetch: ES6
+
+//AJAX call using promise and fetch
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       console.log(data);
+//       renderCountry(data[0]);
+//     });
+// };
+
+//simplyfied version of above AJAX call using arrow functions
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(response => response.json())
+//     .then(data => renderCountry(data[0]));
+// };
+// getCountryData('portugal');
+
+//chaining promises
+const renderCountry = function (data, className = '') {
+  const html = `
+    <article class="country ${className}">
+    <img class="country__img" src="${data.flags.svg}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name.official}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)}M People</p>
+      <p class="country__row"><span>🗣️</span>${data.languages.eng}</p>
+      <p class="country__row"><span>💰</span>${data.currencies.name}</p>
+    </div>
+  </article>
+    `;
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
+};
+//fetching the neighbour country data using the resulted data(neighbour country name) from first API call using chaining promises
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders?.[0];
+      if (!neighbour) return;
+
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(res => res.json())
+    .then(data => renderCountry(data[0], 'neighbour'));
+};
+getCountryData('portugal');
