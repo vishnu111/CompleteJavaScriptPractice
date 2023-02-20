@@ -75,8 +75,6 @@ const countriesContainer = document.querySelector('.countries');
 // }, 1000);
 
 //AJAX call using promise and fetch: ES6
-
-//AJAX call using promise and fetch
 // const getCountryData = function (country) {
 //   fetch(`https://restcountries.com/v3.1/name/${country}`)
 //     .then(function (response) {
@@ -96,7 +94,7 @@ const countriesContainer = document.querySelector('.countries');
 // };
 // getCountryData('portugal');
 
-//chaining promises
+//Chaining promises
 const renderCountry = function (data, className = '') {
   const html = `
     <article class="country ${className}">
